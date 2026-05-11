@@ -1,7 +1,7 @@
 Package: TwoStepSDFM
 Title: Estimate a Sparse Mixed Frequency Gaussian Factor Model Using a
         Two-Step Procedure
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: person(
     given = "Domenic",
     family = "Franjic",
@@ -25,7 +25,7 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: R (>= 4.0)
 LazyData: TRUE
-Packaged: 2026-04-16 13:25:10 UTC; Domen
+Packaged: 2026-05-11 15:12:03 UTC; 520K-User
 Author: Domenic Franjic [aut, cre]
 Repository: CRAN
-Date/Publication: 2026-04-21 18:42:34 UTC
+Date/Publication: 2026-05-11 17:40:02 UTC

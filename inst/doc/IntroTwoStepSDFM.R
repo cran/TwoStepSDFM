@@ -60,7 +60,7 @@ no_of_mtly_vars <- sum(factor_model$frequency == 12)
 all_data <- scale(factor_model$data)
 cross_val_res <- crossVal(data = all_data, variable_of_interest = 1, fcast_horizon = 0,
                                  delay = factor_model$delay, frequency = factor_model$frequency, 
-                                 no_of_factors = no_of_fact_test$no_of_factors, seed = seed, 
+                                 no_of_factors = no_of_fact_test$test$no_of_factors, seed = seed, 
                                  min_ridge_penalty = 1e-6, max_ridge_penalty = 1e+5, cv_repetitions = 5,
                                  cv_size = 100, lasso_penalty_type = "selected", min_max_penalty = c(5, no_of_mtly_vars),
                                  verbose = FALSE)
@@ -71,10 +71,10 @@ cross_val_plot$`CV Results`
 ## ----estim_sparse_dfm, eval = TRUE, message = FALSE---------------------------
 mtly_data <- scale(factor_model$data[, which(factor_model$frequency == 12)])
 mtly_delay <- factor_model$delay[which(factor_model$frequency == 12)]
-inferred_no_of_selected <- cross_val_res$CV$`Min. CV`[3:(3 + no_of_fact_test$no_of_factors - 1)]
+inferred_no_of_selected <- cross_val_res$CV$`Min. CV`[3:(3 + no_of_fact_test$test$no_of_factors - 1)]
 inferred_ridge_penalty <- cross_val_res$CV$`Min. CV`[1]
 sdfm_fit <- twoStepSDFM(data = mtly_data, delay = mtly_delay, selected = inferred_no_of_selected, 
-                        no_of_fact_test$no_of_factors, ridge_penalty = inferred_ridge_penalty)
+                        no_of_fact_test$test$no_of_factors, ridge_penalty = inferred_ridge_penalty)
 print(sdfm_fit)
 sdfm_fit_plot <- plot(sdfm_fit)
 sdfm_fit_plot$`Factor Time Series Plots`
@@ -82,10 +82,10 @@ sdfm_fit_plot$`Loading Matrix Heatmap`
 
 ## ----predict, eval = TRUE, message = FALSE------------------------------------
 all_data <- scale(factor_model$data)
-inferred_no_of_selected <- cross_val_res$CV$`Min. CV`[3:(3 + no_of_fact_test$no_of_factors - 1)]
+inferred_no_of_selected <- cross_val_res$CV$`Min. CV`[3:(3 + no_of_fact_test$test$no_of_factors - 1)]
 inferred_ridge_penalty <- cross_val_res$CV$`Min. CV`[1]
 nc_results <- nowcast(data = all_data, variables_of_interest = c(1, 2), max_fcast_horizon = 2, 
-                      delay = factor_model$delay, ridge_penalty = inferred_ridge_penalty, selected = inferred_no_of_selected, frequency = factor_model$frequency, no_of_factors = no_of_fact_test$no_of_factors)
+                      delay = factor_model$delay, ridge_penalty = inferred_ridge_penalty, selected = inferred_no_of_selected, frequency = factor_model$frequency, no_of_factors = no_of_fact_test$test$no_of_factors)
 nc_plot <- plot(nc_results)
 nc_plot$`Single Pred. Fcast Density Plots Series 1`
 nc_plot$`Single Pred. Fcast Density Plots Series 2`
